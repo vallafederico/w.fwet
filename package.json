@@ -1,0 +1,27 @@
+{
+  "name": "fwet-dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "dependencies": {
+    "@loaders.gl/core": "^3.1.0",
+    "@loaders.gl/gltf": "^3.1.4",
+    "gsap": "npm:@gsap/shockingly@^3.10.4",
+    "normalize-wheel": "^1.0.1",
+    "prefix": "^1.0.0",
+    "tiny-emitter": "^2.1.0",
+    "twgl.js": "^4.21.2"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=dev node esbuild.config.js",
+    "build": "NODE_ENV=production node esbuild.config.js",
+    "flow": "NODE_ENV=flow node esbuild.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.14.49",
+    "esbuild-plugin-glsl": "^1.1.0"
+  }
+}
