@@ -10,8 +10,6 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 [Webflow DEV link](https://webflow.com/design/fwet)
 
----
-
 #### Todo
 
 ###### Dom
