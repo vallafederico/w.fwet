@@ -26,4 +26,7 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 ###### Launch
 
-- [ ]
+- [ ] ASSETS: favicon
+- [ ] ASSETS: OG images
+- [ ] ASSETS: switch favicon to svg
+- [ ] ASSETS: prefers reduced motion query
