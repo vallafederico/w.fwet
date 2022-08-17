@@ -1,24 +1,22 @@
 export default class {
-  constructor(ids = "[data-watch]", classToAdd = 'inview') {
+  constructor(ids = "[data-watch]", classToAdd = "inview") {
     this.items = [...document.querySelectorAll(ids)].map((item) => {
       return {
         item: item,
-        attr: item.dataset.watch || classToAdd
+        attr: item.dataset.watch || classToAdd,
       };
     });
 
     this.init();
-
   }
 
   init() {
-    this.items.forEach((item) => item.watch = new IsItIn(item));
+    this.items.forEach((item) => (item.watch = new IsItIn(item)));
   }
 
   stop() {
     this.items.forEach((item) => item.watch.stop());
   }
-
 }
 
 /* Single Watched Item */
@@ -30,7 +28,7 @@ class IsItIn {
   }
 
   setup() {
-    this.obs = {}
+    this.obs = {};
     const callbackIn = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) this.isIn();
@@ -39,8 +37,8 @@ class IsItIn {
 
     this.obs.in = new IntersectionObserver(callbackIn, {
       rootMargin: "0px",
-      threshold: 0.2
-    })
+      threshold: 0.2,
+    });
     this.obs.in.observe(this.item);
 
     const callbackOut = (entries) => {
@@ -51,10 +49,9 @@ class IsItIn {
 
     this.obs.out = new IntersectionObserver(callbackOut, {
       rootMargin: "0px",
-      threshold: 0
-    })
+      threshold: 0,
+    });
     this.obs.out.observe(this.item);
-
   }
 
   stop() {

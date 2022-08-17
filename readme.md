@@ -12,7 +12,7 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 #### Todo
 
-###### Dom
+###### Domm
 
 - [ ] Softer Animations on page transition
 - [ ] Contacts setup

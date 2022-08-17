@@ -16,8 +16,8 @@ export default class {
     // 1. config
     const {
       wrapper = "[data-scroll]",
-      factor = 0.5,
-      mouse = true,
+      factor = 0.8,
+      mouse = false,
       speed = true,
       percentage = true,
       events = false,
@@ -116,6 +116,22 @@ export default class {
 
   onResize(data) {
     this.y.limit = data.height - window.innerHeight;
+
+    this.scrollUtils();
+  }
+
+  scrollUtils() {
+    this.scrollMarks = [...document.querySelectorAll("[data-scrollto]")].map(
+      (item) => {
+        const id = item.dataset.scrollto;
+        const { y } = document
+          .querySelector(`[data-scrollmark="${id}"]`)
+          .getBoundingClientRect();
+
+        item.onclick = () => this.scrollTo(y);
+      }
+    );
+    // console.log(this.scrollMarks);
   }
 
   /**
@@ -184,7 +200,7 @@ export default class {
     if (Math.abs(this.y.target - this.y.current) < 0.1) return;
 
     this.y.target = clamp(0, this.y.limit, this.y.target);
-    this.y.current = lerp(this.y.current, this.y.target, 0.1);
+    this.y.current = lerp(this.y.current, this.y.target, 0.05);
     if (this.y.target < 0.01) this.y.target = 0;
 
     this.move();
@@ -247,3 +263,10 @@ export function clamp(min, max, num) {
 export function map(value, inLow, inHigh, outLow, outHigh) {
   return outLow + ((outHigh - outLow) * (value - inLow)) / (inHigh - inLow);
 }
+
+/*
+Scrollto
+
+data-scrollto="ID"
+data-scrollmark="ID"
+*/
