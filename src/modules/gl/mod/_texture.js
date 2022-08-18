@@ -34,20 +34,24 @@ export default class {
   }
 
   async load() {
-    if (this.isVideo) return;
+    if (this.isVideo) {
+      this.video.addEventListener("loadeddata", () => {
+        return;
+      });
+    } else {
+      // get texture from dom
+      const loadedData = await loadTextureAndData(
+        this.gl,
+        this.src,
+        this.gl.NEAREST
+      );
 
-    // get texture from dom
-    const loadedData = await loadTextureAndData(
-      this.gl,
-      this.src,
-      this.gl.LINEAR
-    );
+      this.isReady = true;
+      this.texture = loadedData.texture;
+      this.ratio = loadedData.ratio;
 
-    this.isReady = true;
-    this.texture = loadedData.texture;
-    this.ratio = loadedData.ratio;
-
-    this.resize();
+      this.resize();
+    }
   }
 
   /*** -- Lifecycle */

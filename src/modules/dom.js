@@ -18,6 +18,8 @@ export default class {
     this.alpha = this.createAlpha();
     this.inview = new InView();
 
+    // console.log(this.titles, this.paragraphs, this.alpha, this.inview);
+
     this.utils = new Utils();
   }
 
@@ -54,6 +56,7 @@ export default class {
     return [...document.querySelectorAll(id)].map((item) => {
       const el = new Char(item);
       el.setOut();
+      // console.log(item);
       return el;
     });
   }
@@ -62,6 +65,7 @@ export default class {
     return [...document.querySelectorAll(id)].map((item) => {
       const el = new Word(item);
       el.setOut();
+      // console.log(item);
       return el;
     });
   }
@@ -70,6 +74,7 @@ export default class {
     return [...document.querySelectorAll(id)].map((item) => {
       const el = new Alpha(item);
       el.setOut();
+      // console.log(item);
       return el;
     });
   }

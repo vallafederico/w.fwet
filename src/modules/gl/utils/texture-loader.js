@@ -17,7 +17,7 @@ export function loadTexture(gl, src, filtering) {
  */
 export function loadTextureAndData(gl, src, filtering) {
   return new Promise((resolve, reject) => {
-    const filter = filtering || gl.LINEAR;
+    const filter = filtering || gl.NEAREST;
 
     const cb = (err, texture, el) => {
       // console.log("callback", err, txt, el);
@@ -36,7 +36,6 @@ export function loadTextureAndData(gl, src, filtering) {
         min: filter,
       },
       cb
-      // getRatio
     );
   });
 }

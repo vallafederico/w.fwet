@@ -10411,7 +10411,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
   // src/modules/gl/utils/texture-loader.js
   function loadTextureAndData(gl, src, filtering) {
     return new Promise((resolve, reject) => {
-      const filter = filtering || gl.LINEAR;
+      const filter = filtering || gl.NEAREST;
       const cb = (err, texture, el) => {
         const ratio = calcRatio(src);
         resolve({ texture, ratio });
@@ -10565,17 +10565,21 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       return ref;
     }
     async load() {
-      if (this.isVideo)
-        return;
-      const loadedData = await loadTextureAndData(
-        this.gl,
-        this.src,
-        this.gl.LINEAR
-      );
-      this.isReady = true;
-      this.texture = loadedData.texture;
-      this.ratio = loadedData.ratio;
-      this.resize();
+      if (this.isVideo) {
+        this.video.addEventListener("loadeddata", () => {
+          return;
+        });
+      } else {
+        const loadedData = await loadTextureAndData(
+          this.gl,
+          this.src,
+          this.gl.NEAREST
+        );
+        this.isReady = true;
+        this.texture = loadedData.texture;
+        this.ratio = loadedData.ratio;
+        this.resize();
+      }
     }
     render() {
       if (!this.isVideo)
@@ -10960,7 +10964,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
   var vertex_default4 = "attribute vec4 position;varying vec2 v_pos;void main(){vec4 pos=position;gl_Position=position;v_pos=pos.xy;}";
 
   // src/modules/gl/post/mat/fragment.frag
-  var fragment_default4 = "precision mediump float;uniform vec2 u_res;uniform float u_time;uniform vec2 u_mouse;uniform float u_speed;varying vec2 v_pos;uniform sampler2D u_diff;uniform sampler2D u_checker;const vec2 curvature=vec2(5.,5.);vec2 curveRemapUV(in vec2 uv){uv*=2.;uv-=1.;vec2 offset=abs(uv.yx)/vec2(curvature.x,curvature.y);uv=uv+uv*offset*offset;uv=uv*0.5+.5;return uv;}void main(){vec2 uv=gl_FragCoord.xy/u_res;vec2 d_uv=curveRemapUV(uv);float checker=texture2D(u_checker,d_uv).r;float dist=distance(u_mouse,v_pos);dist=1.-dist;dist=smoothstep(.6,1.,dist);vec3 img=texture2D(u_diff,d_uv).rgb;vec3 final_img=img.rgb;gl_FragColor.rgb=final_img.rgb;gl_FragColor.a=1.;}//vec3 bw_img=vec3((img.r+img.g+img.b)/3.3333);";
+  var fragment_default4 = "precision mediump float;\n#define PI 3.14159265359\nuniform vec2 u_res;uniform float u_time;uniform vec2 u_mouse;uniform float u_speed;varying vec2 v_pos;uniform sampler2D u_diff;uniform sampler2D u_checker;vec3 scanLines(in float uv,in float resolution,in float opacity){float intensity=sin((uv)*resolution*PI*2.0);intensity=((0.5*intensity)+0.5)*0.9+0.1;return vec3(vec3(pow(intensity,opacity)));}vec2 curveRemapUV(in vec2 uv,in vec2 curv){uv*=2.;uv-=1.;vec2 offset=abs(uv.yx)/vec2(curv.x,curv.y);uv=uv+uv*offset*offset;uv=uv*0.5+.5;return uv;}float blendOverlay(float base,float blend){return base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));}vec3 blendOverlay(vec3 base,vec3 blend){return vec3(blendOverlay(base.r,blend.r),blendOverlay(base.g,blend.g),blendOverlay(base.b,blend.b));}vec3 blendOverlay(vec3 base,vec3 blend,float opacity){return(blendOverlay(base,blend)*opacity+base*(1.0-opacity));}void main(){vec2 uv=gl_FragCoord.xy/u_res;float abs_speed=abs(u_speed);vec2 curv=vec2(5.,5.);vec2 d_uv=curveRemapUV(uv,curv);float checker=texture2D(u_checker,d_uv).r;float dist=distance(u_mouse,v_pos);dist=1.-dist;dist=smoothstep(.9,1.,dist);float mouse_dist=dist*(u_time)*.003;vec2 mouse_uv=d_uv;vec3 img=texture2D(u_diff,mouse_uv).rgb;vec3 final_img=img.rgb;float banding=.9-cos((sin(mouse_uv.y*10.)+(u_time))*20.+(u_time*10.))*.1;vec3 scalnline_diff=scanLines(mouse_uv.y+u_time*10.,500.,banding);final_img.rgb=blendOverlay(final_img,scalnline_diff,.1+abs(sin(u_time)*.2));gl_FragColor.rgb=final_img.rgb;gl_FragColor.a=1.;}//vec3 bw_img=vec3((img.r+img.g+img.b)/3.3333);";
 
   // src/modules/gl/post/mat/index.js
   var Sh4 = [vertex_default4, fragment_default4];
@@ -11016,7 +11020,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     }
   };
   function getCheckerTexture(gl) {
-    const size = 12;
+    const size = 320;
     const array = [];
     for (let i = 0; i < size * size; i++) {
       const res = Math.random() * 255;
@@ -11305,7 +11309,8 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.cache.set(page.path, page);
     }
     onClick(e, link) {
-      e.preventDefault();
+      if (e)
+        e.preventDefault();
       if (link.pathname === window.location.pathname)
         return;
       this.onLinkClicked();
@@ -11393,6 +11398,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
   var Router = class extends R {
     constructor() {
       super();
+      this.getScrollTriggers();
     }
     initTransition(next) {
       this.next = next;
@@ -11419,6 +11425,17 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     finishAndReset() {
       updateDom(this.current.data);
       this.setup();
+      this.getScrollTriggers();
+    }
+    getScrollTriggers() {
+      this.scrollTriggers = [...document.querySelectorAll("[data-href]")];
+      this.scrollTriggers.forEach((trigger) => {
+        const w = new watch_default(trigger);
+        w.on("isIn", () => {
+          this.onHover(trigger);
+          this.onClick(null, trigger);
+        });
+      });
     }
   };
 

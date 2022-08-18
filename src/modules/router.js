@@ -1,4 +1,5 @@
 import Emitter from "tiny-emitter";
+import Watch from "./utils/watch";
 
 const PARSER = new window.DOMParser();
 
@@ -69,7 +70,7 @@ export class R extends Emitter {
   }
 
   onClick(e, link) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (link.pathname === window.location.pathname) return;
     this.onLinkClicked();
 
@@ -198,6 +199,8 @@ function getCache(cache, route) {
 export class Router extends R {
   constructor() {
     super();
+
+    this.getScrollTriggers();
   }
 
   initTransition(next) {
@@ -233,5 +236,19 @@ export class Router extends R {
   finishAndReset() {
     updateDom(this.current.data);
     this.setup();
+    this.getScrollTriggers();
+  }
+
+  /** --- Variations */
+  getScrollTriggers() {
+    this.scrollTriggers = [...document.querySelectorAll("[data-href]")];
+
+    this.scrollTriggers.forEach((trigger) => {
+      const w = new Watch(trigger);
+      w.on("isIn", () => {
+        this.onHover(trigger);
+        this.onClick(null, trigger);
+      });
+    });
   }
 }

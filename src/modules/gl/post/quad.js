@@ -63,7 +63,7 @@ export default class {
 
 /* --- Checker */
 function getCheckerTexture(gl) {
-  const size = 12;
+  const size = 320;
 
   const array = [];
   for (let i = 0; i < size * size; i++) {

@@ -25,6 +25,9 @@ void main() {
 
     vec3 final_img = img.rgb;
 
+    // // bw on hover
+    // float bw = (bw_img.r + bw_img.g + bw_img.b) / 3.33333 + .2;
+    // final_img = mix(final_img, vec3(bw), v_a_hover);
 
 
     gl_FragColor.rgb = final_img;
