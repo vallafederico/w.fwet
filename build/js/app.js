@@ -10675,6 +10675,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.watch = new watch_default(this.ref, this.gl.vp);
       this.watch.on("isIn", () => this.animateIn());
       this.watch.on("isOut", () => this.setOut());
+      this.resize(this.gl);
     }
     animateIn(dur = 1.2) {
       if (this.animationInOut)
@@ -10821,7 +10822,6 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     constructor(gl) {
       super(gl);
       this.gl = gl;
-      console.log("PAGE -> homepage");
       this.create();
     }
     create() {
@@ -10858,7 +10858,6 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     constructor(gl) {
       super(gl);
       this.gl = gl;
-      console.log("PAGE -> project");
       this.create();
     }
     create() {
@@ -10895,7 +10894,6 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     constructor(gl) {
       super(gl);
       this.gl = gl;
-      console.log("PAGE -> work");
       this.create();
     }
     create() {
@@ -10964,7 +10962,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
   var vertex_default4 = "attribute vec4 position;varying vec2 v_pos;void main(){vec4 pos=position;gl_Position=position;v_pos=pos.xy;}";
 
   // src/modules/gl/post/mat/fragment.frag
-  var fragment_default4 = "precision mediump float;\n#define PI 3.14159265359\nuniform vec2 u_res;uniform float u_time;uniform vec2 u_mouse;uniform float u_speed;varying vec2 v_pos;uniform sampler2D u_diff;uniform sampler2D u_checker;vec3 scanLines(in float uv,in float resolution,in float opacity){float intensity=sin((uv)*resolution*PI*2.0);intensity=((0.5*intensity)+0.5)*0.9+0.1;return vec3(vec3(pow(intensity,opacity)));}vec2 curveRemapUV(in vec2 uv,in vec2 curv){uv*=2.;uv-=1.;vec2 offset=abs(uv.yx)/vec2(curv.x,curv.y);uv=uv+uv*offset*offset;uv=uv*0.5+.5;return uv;}float blendOverlay(float base,float blend){return base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));}vec3 blendOverlay(vec3 base,vec3 blend){return vec3(blendOverlay(base.r,blend.r),blendOverlay(base.g,blend.g),blendOverlay(base.b,blend.b));}vec3 blendOverlay(vec3 base,vec3 blend,float opacity){return(blendOverlay(base,blend)*opacity+base*(1.0-opacity));}void main(){vec2 uv=gl_FragCoord.xy/u_res;float abs_speed=abs(u_speed);vec2 curv=vec2(5.,5.);vec2 d_uv=curveRemapUV(uv,curv);float checker=texture2D(u_checker,d_uv).r;float dist=distance(u_mouse,v_pos);dist=1.-dist;dist=smoothstep(.9,1.,dist);float mouse_dist=dist*(u_time)*.003;vec2 mouse_uv=d_uv;vec3 img=texture2D(u_diff,mouse_uv).rgb;vec3 final_img=img.rgb;float banding=.9-cos((sin(mouse_uv.y*10.)+(u_time))*20.+(u_time*10.))*.1;vec3 scalnline_diff=scanLines(mouse_uv.y+u_time*10.,500.,banding);final_img.rgb=blendOverlay(final_img,scalnline_diff,.1+abs(sin(u_time)*.2));gl_FragColor.rgb=final_img.rgb;gl_FragColor.a=1.;}//vec3 bw_img=vec3((img.r+img.g+img.b)/3.3333);";
+  var fragment_default4 = "precision mediump float;\n#define PI 3.14159265359\nuniform vec2 u_res;uniform float u_time;uniform vec2 u_mouse;uniform float u_speed;varying vec2 v_pos;uniform vec2 u_trans;uniform sampler2D u_diff;uniform sampler2D u_checker;vec3 scanLines(in float uv,in float resolution,in float opacity){float intensity=sin((uv)*resolution*PI*2.0);intensity=((0.5*intensity)+0.5)*0.9+0.1;return vec3(vec3(pow(intensity,opacity)));}vec2 curveRemapUV(in vec2 uv,in vec2 curv){uv*=2.;uv-=1.;vec2 offset=abs(uv.yx)/vec2(curv.x,curv.y);uv=uv+uv*offset*offset;uv=uv*0.5+.5;return uv;}float blendOverlay(float base,float blend){return base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));}vec3 blendOverlay(vec3 base,vec3 blend){return vec3(blendOverlay(base.r,blend.r),blendOverlay(base.g,blend.g),blendOverlay(base.b,blend.b));}vec3 blendOverlay(vec3 base,vec3 blend,float opacity){return(blendOverlay(base,blend)*opacity+base*(1.0-opacity));}void main(){vec2 uv=gl_FragCoord.xy/u_res;float abs_speed=abs(u_speed);float a_trans=sin(u_trans.x*2.*PI);vec2 curv=vec2(5.,5.);vec2 d_uv=curveRemapUV(uv,curv);float checker=texture2D(u_checker,d_uv).r;float dist=distance(u_mouse,v_pos);dist=1.-dist;dist=smoothstep(.9,1.,dist);float mouse_dist=dist*.003;vec2 mouse_uv=d_uv;vec3 img=texture2D(u_diff,mouse_uv+mouse_dist).rgb;vec3 final_img=img.rgb;float banding=.9-cos((sin(mouse_uv.y*10.)+(u_time))*20.+(u_time*10.))*.1;vec3 scalnline_diff=scanLines(mouse_uv.y+u_time*10.,500.-(abs_speed+a_trans*(u_trans.y+a_trans*3.))*500.,banding);final_img.rgb=blendOverlay(final_img,scalnline_diff,.1+abs(sin(u_time)*.2));final_img.rgb+=(scalnline_diff)*.3*a_trans;gl_FragColor.rgb=final_img.rgb;gl_FragColor.a=1.;}//vec3 bw_img=vec3((img.r+img.g+img.b)/3.3333);";
 
   // src/modules/gl/post/mat/index.js
   var Sh4 = [vertex_default4, fragment_default4];
@@ -10977,6 +10975,10 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.data = data;
       this.shaders = mat_default;
       this.programInfo = createProgramInfo(this.gl, this.shaders);
+      this.a = {
+        trans: 0,
+        rand: 2
+      };
       this.gl.useProgram(this.programInfo.program);
       this.setBuffAtt();
       this.setUniforms();
@@ -11007,7 +11009,8 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
         u_diff: diff,
         u_mouse: [x, y],
         u_speed: speed,
-        u_checker: this.checkerTxt
+        u_checker: this.checkerTxt,
+        u_trans: [this.a.trans, this.a.rand]
       });
       drawBufferInfo(this.gl, this.bufferInfo);
     }
@@ -11017,6 +11020,18 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       setUniforms(this.programInfo, {
         u_res: [this.gl.canvas.width, this.gl.canvas.height]
       });
+    }
+    animateTransition(dur) {
+      const val = this.a.trans > 0.5 ? 0 : 1;
+      const rand = 1 + Math.random() * 3;
+      this.a.rand = rand;
+      gsapWithCSS.to(this.a, {
+        trans: val,
+        duration: dur * 2,
+        ease: "elastic.inOut"
+      });
+    }
+    transitionDone() {
     }
   };
   function getCheckerTexture(gl) {
@@ -11103,6 +11118,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     }
     createPlane() {
       this.quad = new quad_default2(this.gl);
+      this.quad.animateTransition(0.2);
     }
     setupRender() {
       if (!this.isActive)
@@ -11122,6 +11138,11 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.create();
       if (this.quad)
         this.quad.resize(this.gl);
+    }
+    startTransition(dur) {
+      this.quad?.animateTransition(dur);
+    }
+    handlePageChange(next) {
     }
   };
 
@@ -11195,6 +11216,13 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
         ww: window.innerWidth,
         wh: window.innerHeight
       };
+    }
+    startTransition(dur) {
+      this.post?.startTransition(dur);
+    }
+    handlePageChange(next) {
+      this.scene?.handlePageChange(next);
+      this.post?.handlePageChange(next);
     }
     get viewSize() {
       const height = Math.abs(
@@ -11446,7 +11474,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     constructor(config3 = {}) {
       const {
         wrapper = "[data-scroll]",
-        factor = 0.8,
+        factor = 0.7,
         mouse = false,
         speed = true,
         percentage = true,
@@ -11645,7 +11673,9 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       }
     }
     transition({ current, next }) {
-      setTimeout(() => this.changePage(next), 1e3);
+      const timer = 1;
+      setTimeout(() => this.changePage(next), timer * 1e3);
+      this.gl.startTransition(timer);
     }
     changePage(next) {
       this.router.swap().then(() => {
@@ -11657,8 +11687,8 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
         this.scroll.scrollTo(0, true);
       if (this.dom)
         this.dom.create();
-      if (this.gl?.scene)
-        this.gl.scene.handlePageChange(next);
+      if (this.gl)
+        this.gl.handlePageChange(next);
     }
     update() {
       if (this.gl && this.scroll)

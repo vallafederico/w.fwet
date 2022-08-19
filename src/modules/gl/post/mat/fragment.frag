@@ -9,8 +9,12 @@ uniform float u_speed;
 
 varying vec2 v_pos;
 
+// animation
+uniform vec2 u_trans;
+
 uniform sampler2D u_diff;
 uniform sampler2D u_checker;
+
 
 // ->> scanlines
  vec3 scanLines(in float uv, in float resolution, in float opacity) {
@@ -53,7 +57,10 @@ vec3 blendOverlay(vec3 base, vec3 blend, float opacity) {
 
 void main() {
   vec2 uv = gl_FragCoord.xy / u_res;
+
   float abs_speed = abs(u_speed);
+  float a_trans = sin(u_trans.x * 2. * PI);
+
 
   // curvature
   vec2 curv = vec2(5., 5.);
@@ -71,11 +78,11 @@ void main() {
 
   /* >> texture */
   // float checker_dist = checker * u_speed * .02;
-  float mouse_dist = dist * (u_time) * .003;
+  float mouse_dist = dist * .003;
 
   // texture
   vec2 mouse_uv = d_uv;
-  vec3 img = texture2D(u_diff, mouse_uv).rgb;
+  vec3 img = texture2D(u_diff, mouse_uv + mouse_dist).rgb;
   
 
   // final image
@@ -85,7 +92,7 @@ void main() {
   float banding = .9 - cos((sin(mouse_uv.y * 10.) + (u_time)) * 20. + (u_time * 10.)) * .1;
   vec3 scalnline_diff = scanLines(
     mouse_uv.y + u_time * 10., 
-    500., 
+    500. - (abs_speed + a_trans * (u_trans.y + a_trans * 3.)) * 500., 
     banding
   );
 
@@ -94,6 +101,8 @@ void main() {
     scalnline_diff, 
     .1 + abs(sin(u_time) * .2)
   );
+
+  final_img.rgb += (scalnline_diff) * .3 * a_trans;
 
 
   gl_FragColor.rgb = final_img.rgb;

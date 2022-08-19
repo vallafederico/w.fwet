@@ -5,7 +5,7 @@ export default class extends Page {
   constructor(gl) {
     super(gl);
     this.gl = gl;
-    console.log("PAGE -> project");
+    // console.log("PAGE -> project");
 
     this.create();
   }

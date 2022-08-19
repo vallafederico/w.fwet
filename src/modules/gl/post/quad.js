@@ -1,12 +1,27 @@
-import * as twgl from "twgl.js";
+import {
+  createBufferInfoFromArrays,
+  createProgramInfo,
+  setUniforms,
+  setBuffersAndAttributes,
+  drawBufferInfo,
+  createTexture,
+} from "twgl.js";
+
 import shaders from "./mat/";
+import gsap from "gsap";
 
 export default class {
   constructor(gl, data = {}) {
     this.gl = gl;
     this.data = data;
     this.shaders = shaders;
-    this.programInfo = twgl.createProgramInfo(this.gl, this.shaders);
+    this.programInfo = createProgramInfo(this.gl, this.shaders);
+
+    // animation controller
+    this.a = {
+      trans: 0,
+      rand: 2,
+    };
 
     this.gl.useProgram(this.programInfo.program);
     this.setBuffAtt();
@@ -17,7 +32,7 @@ export default class {
     const arrays = {
       position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
     };
-    this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, arrays);
+    this.bufferInfo = createBufferInfoFromArrays(this.gl, arrays);
   }
 
   setUniforms() {
@@ -33,21 +48,22 @@ export default class {
     };
 
     this.gl.useProgram(this.programInfo.program);
-    twgl.setUniforms(this.programInfo, this.uniforms);
+    setUniforms(this.programInfo, this.uniforms);
   }
 
   render(time, diff = null, { x, y }, speed) {
     this.gl.useProgram(this.programInfo.program);
-    twgl.setBuffersAndAttributes(this.gl, this.programInfo, this.bufferInfo);
-    twgl.setUniforms(this.programInfo, {
+    setBuffersAndAttributes(this.gl, this.programInfo, this.bufferInfo);
+    setUniforms(this.programInfo, {
       u_time: time,
       u_diff: diff,
       u_mouse: [x, y],
       u_speed: speed,
       u_checker: this.checkerTxt,
+      u_trans: [this.a.trans, this.a.rand],
     });
 
-    twgl.drawBufferInfo(this.gl, this.bufferInfo);
+    drawBufferInfo(this.gl, this.bufferInfo);
     // this.gl.LINES
   }
 
@@ -55,9 +71,27 @@ export default class {
     this.gl = gl;
 
     this.gl.useProgram(this.programInfo.program);
-    twgl.setUniforms(this.programInfo, {
+    setUniforms(this.programInfo, {
       u_res: [this.gl.canvas.width, this.gl.canvas.height],
     });
+  }
+
+  /* --- Animation */
+  animateTransition(dur) {
+    const val = this.a.trans > 0.5 ? 0 : 1;
+
+    const rand = 1 + Math.random() * 3;
+    this.a.rand = rand;
+
+    gsap.to(this.a, {
+      trans: val,
+      duration: dur * 2,
+      ease: "elastic.inOut",
+    });
+  }
+
+  transitionDone() {
+    // console.log("done!");
   }
 }
 
@@ -71,7 +105,7 @@ function getCheckerTexture(gl) {
     array.push(res, res, res, 255);
   }
 
-  return twgl.createTexture(gl, {
+  return createTexture(gl, {
     mag: gl.NEAREST,
     min: gl.LINEAR,
     src: array,

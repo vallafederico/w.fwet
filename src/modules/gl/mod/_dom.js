@@ -81,6 +81,8 @@ export default class extends Quad {
     this.watch = new Watch(this.ref, this.gl.vp);
     this.watch.on("isIn", () => this.animateIn());
     this.watch.on("isOut", () => this.setOut());
+
+    this.resize(this.gl);
   }
 
   animateIn(dur = 1.2) {

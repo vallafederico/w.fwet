@@ -94,6 +94,7 @@ export default class {
 
   createPlane() {
     this.quad = new Quad(this.gl);
+    this.quad.animateTransition(0.2);
   }
 
   /**
@@ -116,5 +117,15 @@ export default class {
     this.gl = gl;
     this.create();
     if (this.quad) this.quad.resize(this.gl);
+  }
+
+  /** --- Router */
+  startTransition(dur) {
+    // console.log("transition start", dur);
+    this.quad?.animateTransition(dur);
+  }
+
+  handlePageChange(next) {
+    // this.quad.transitionDone();
   }
 }

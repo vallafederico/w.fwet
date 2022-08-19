@@ -52,25 +52,24 @@ class App {
   transition({ current, next }) {
     // console.log(current, "->", next);
     // trigger page change
-    setTimeout(() => this.changePage(next), 1000);
+    const timer = 1;
+    setTimeout(() => this.changePage(next), timer * 1000);
+
+    this.gl.startTransition(timer);
+    // console.log("transition");
   }
 
   changePage(next) {
     //  remove old and next new in
     this.router.swap().then(() => {
-      //  setup next
       this.handleNext(next);
-
-      //  transition next in
     });
-
-    // fix page
   }
 
   handleNext(next) {
     if (this.scroll) this.scroll.scrollTo(0, true);
     if (this.dom) this.dom.create();
-    if (this.gl?.scene) this.gl.scene.handlePageChange(next);
+    if (this.gl) this.gl.handlePageChange(next);
   }
 
   /*

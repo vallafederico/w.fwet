@@ -99,6 +99,16 @@ export default class {
     };
   }
 
+  /** --- Router */
+  startTransition(dur) {
+    this.post?.startTransition(dur);
+  }
+
+  handlePageChange(next) {
+    this.scene?.handlePageChange(next);
+    this.post?.handlePageChange(next);
+  }
+
   /** --- Utils */
 
   get viewSize() {
