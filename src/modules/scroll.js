@@ -16,7 +16,7 @@ export default class {
     // 1. config
     const {
       wrapper = "[data-scroll]",
-      factor = 0.7,
+      factor = 0.5,
       mouse = false,
       speed = true,
       percentage = true,

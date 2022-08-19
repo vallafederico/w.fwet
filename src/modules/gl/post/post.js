@@ -94,7 +94,7 @@ export default class {
 
   createPlane() {
     this.quad = new Quad(this.gl);
-    this.quad.animateTransition(0.2);
+    this.quad.animateTransition(0.7);
   }
 
   /**

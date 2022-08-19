@@ -10723,6 +10723,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.gl = gl;
       this.ref = ref;
       this.a = {
+        rand: Math.random() * 0.3,
         Ain: 0,
         Ahover: 0
       };
@@ -10777,7 +10778,8 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.animationInOut = gsapWithCSS.to(this.a, {
         Ain: 1,
         duration: dur,
-        ease: "expo.out"
+        ease: "expo.out",
+        delay: this.a.rand
       });
     }
     animateOut(dur = 0.8) {
@@ -10786,7 +10788,8 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.animationInOut = gsapWithCSS.to(this.a, {
         Ain: 0,
         duration: dur,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
+        delay: this.a.rand
       });
     }
     setOut() {
@@ -11118,7 +11121,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     }
     createPlane() {
       this.quad = new quad_default2(this.gl);
-      this.quad.animateTransition(0.2);
+      this.quad.animateTransition(0.7);
     }
     setupRender() {
       if (!this.isActive)
@@ -11474,7 +11477,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     constructor(config3 = {}) {
       const {
         wrapper = "[data-scroll]",
-        factor = 0.7,
+        factor = 0.5,
         mouse = false,
         speed = true,
         percentage = true,

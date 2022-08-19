@@ -25,6 +25,7 @@ export default class extends Quad {
     this.ref = ref;
 
     this.a = {
+      rand: Math.random() * 0.3,
       Ain: 0,
       Ahover: 0,
     };
@@ -93,6 +94,7 @@ export default class extends Quad {
       Ain: 1,
       duration: dur,
       ease: "expo.out",
+      delay: this.a.rand,
     });
   }
 
@@ -102,6 +104,7 @@ export default class extends Quad {
       Ain: 0,
       duration: dur,
       ease: "power2.inOut",
+      delay: this.a.rand,
     });
   }
 
