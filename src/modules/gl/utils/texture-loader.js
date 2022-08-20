@@ -17,25 +17,50 @@ export function loadTexture(gl, src, filtering) {
  */
 export function loadTextureAndData(gl, src, filtering) {
   return new Promise((resolve, reject) => {
-    const filter = filtering || gl.NEAREST;
+    if (src.complete && src.naturalHeight !== 0) {
+      // go!
+      const filter = filtering || gl.NEAREST;
 
-    const cb = (err, texture, el) => {
-      console.log(src.complete && src.naturalHeight !== 0);
-      const ratio = calcRatio(src);
+      const cb = (err, texture, el) => {
+        const ratio = calcRatio(src);
 
-      resolve({ texture, ratio });
-    };
+        resolve({ texture, ratio });
+      };
 
-    // setup promise
-    const loaded = createTexture(
-      gl,
-      {
-        src: src.src,
-        mag: filter,
-        min: filter,
-      },
-      cb
-    );
+      // setup promise
+      const loaded = createTexture(
+        gl,
+        {
+          src: src.src,
+          mag: filter,
+          min: filter,
+        },
+        cb
+      );
+    } else {
+      src.addEventListener("load", () => {
+        console.log("had to wait");
+        // go!
+        const filter = filtering || gl.NEAREST;
+
+        const cb = (err, texture, el) => {
+          const ratio = calcRatio(src);
+
+          resolve({ texture, ratio });
+        };
+
+        // setup promise
+        const loaded = createTexture(
+          gl,
+          {
+            src: src.src,
+            mag: filter,
+            min: filter,
+          },
+          cb
+        );
+      });
+    }
   });
 }
 

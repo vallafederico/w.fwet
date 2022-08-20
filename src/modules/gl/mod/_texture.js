@@ -39,6 +39,8 @@ export default class {
         return;
       });
     } else {
+      // check image loading progress
+
       // get texture from dom
       const loadedData = await loadTextureAndData(
         this.gl,
