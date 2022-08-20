@@ -7,7 +7,7 @@ export default class extends Emitter {
 
     this.config = {
       in: {
-        t: 0.5,
+        t: 0.2,
         my: "00%",
       },
       out: {

@@ -55,9 +55,9 @@ class IsItIn {
   }
 
   stop() {
-    this.item.classList.add("an-out"); // revert class name
     this.obs.in.unobserve(this.item);
     this.obs.out.unobserve(this.item);
+    this.item.classList.add("an-out"); // revert class name
   }
 
   isIn() {

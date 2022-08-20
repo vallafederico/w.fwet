@@ -28,6 +28,7 @@ export default class {
     // prettier-ignore
     if (this.paragraphs) this.paragraphs.forEach((item) => item.animOutAndClear());
     if (this.alpha) this.alpha.forEach((item) => item.animOutAndClear());
+    if (this.inview) this.inview.stop();
   }
 
   clean() {

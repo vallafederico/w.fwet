@@ -17,7 +17,7 @@ export default class {
     const {
       wrapper = "[data-scroll]",
       factor = 0.5,
-      mouse = false,
+      mouse = true,
       speed = true,
       percentage = true,
       events = false,
@@ -64,12 +64,18 @@ export default class {
       this.touch = {
         isDown: false,
         down: 0,
-        factor: this.factor * 0.2,
+        factor: this.factor,
       };
 
-      window.addEventListener("touchstart", this.touchDown.bind(this));
-      window.addEventListener("touchmove", this.touchMove.bind(this));
-      window.addEventListener("touchend", this.touchUp.bind(this));
+      window.addEventListener("touchstart", this.touchDown.bind(this), {
+        passive: false,
+      });
+      window.addEventListener("touchmove", this.touchMove.bind(this), {
+        passive: false,
+      });
+      window.addEventListener("touchend", this.touchUp.bind(this), {
+        passive: false,
+      });
     } else if (this.mouseDrive) this.initMouse();
 
     this.start();

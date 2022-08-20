@@ -72,6 +72,7 @@ export default class extends Quad {
       // animation
       u_a_in: this.a.Ain,
       u_a_hover: this.a.Ahover,
+      u_rand: this.a.rand,
     });
 
     drawBufferInfo(this.gl, this.bufferInfo);

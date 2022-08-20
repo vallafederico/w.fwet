@@ -25,6 +25,7 @@ export default class extends Quad {
     this.ref = ref;
 
     this.a = {
+      rand: Math.random() * 10,
       Ain: 0,
       Ahover: 0,
     };
@@ -53,6 +54,7 @@ export default class extends Quad {
       u_id: this.mat,
       u_camera: gl.camera.mat,
       u_scale: [pos.width, pos.height],
+      u_rand: this.a.rand,
     });
   }
 
