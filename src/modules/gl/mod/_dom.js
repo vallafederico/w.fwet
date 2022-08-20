@@ -85,7 +85,7 @@ export default class extends Quad {
     this.watch.on("isOut", () => this.setOut());
 
     this.resize(this.gl);
-    console.log(this.texture);
+    // console.log(this.texture);
   }
 
   animateIn(dur = 1.2) {
