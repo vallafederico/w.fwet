@@ -39,7 +39,7 @@ export function loadTextureAndData(gl, src, filtering) {
       );
     } else {
       src.addEventListener("load", () => {
-        console.log("had to wait");
+        console.log("had to wait", src.naturalHeight, { src });
         // go!
         const filter = filtering || gl.NEAREST;
 
