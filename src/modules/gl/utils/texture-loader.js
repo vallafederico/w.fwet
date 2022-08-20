@@ -23,6 +23,11 @@ export function loadTextureAndData(gl, src, filtering) {
       // console.log("callback", err, txt, el);
 
       const ratio = calcRatio(src);
+      ratio.forEach((item) => {
+        if (item === 0) {
+          item = 1;
+        }
+      });
 
       resolve({ texture, ratio });
     };
@@ -62,10 +67,8 @@ export function calcRatio(src, wrap = null) {
   const imgRevRatio = imgHeight / imgWidth;
 
   /** Cases */
-  console.log(imgWidth, imgHeight);
-
-  // 1. vertical wrap w vertical image -> (false, false)
   if (!wrapHorizontal && !imgHorizontal) {
+    // 1. vertical wrap w vertical image -> (false, false)
     // console.log("case1: v v");
     return [1 * wrapRatio, imgRatio];
   }
