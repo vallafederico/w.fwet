@@ -10680,7 +10680,10 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.watch.on("isIn", () => this.animateIn());
       this.watch.on("isOut", () => this.setOut());
       this.resize(this.gl);
+<<<<<<< HEAD
       console.log(this.texture);
+=======
+>>>>>>> 6724eec06c751d739b911a801a9c8e55792d06e5
     }
     animateIn(dur = 1.2) {
       if (this.animationInOut)
