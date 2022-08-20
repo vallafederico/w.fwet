@@ -20,14 +20,8 @@ export function loadTextureAndData(gl, src, filtering) {
     const filter = filtering || gl.NEAREST;
 
     const cb = (err, texture, el) => {
-      // console.log("callback", err, txt, el);
-
+      console.log(src.complete && src.naturalHeight !== 0);
       const ratio = calcRatio(src);
-      ratio.forEach((item) => {
-        if (item === 0) {
-          item = 1;
-        }
-      });
 
       resolve({ texture, ratio });
     };
