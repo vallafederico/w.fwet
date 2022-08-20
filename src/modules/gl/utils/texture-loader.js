@@ -17,50 +17,26 @@ export function loadTexture(gl, src, filtering) {
  */
 export function loadTextureAndData(gl, src, filtering) {
   return new Promise((resolve, reject) => {
-    if (src.complete && src.naturalHeight !== 0) {
-      // go!
-      const filter = filtering || gl.NEAREST;
+    // if (src.complete && src.naturalHeight !== 0) {}
 
-      const cb = (err, texture, el) => {
-        const ratio = calcRatio(src);
+    const filter = filtering || gl.NEAREST;
 
-        resolve({ texture, ratio });
-      };
+    const cb = (err, texture, el) => {
+      const ratio = calcRatio(src);
 
-      // setup promise
-      const loaded = createTexture(
-        gl,
-        {
-          src: src.src,
-          mag: filter,
-          min: filter,
-        },
-        cb
-      );
-    } else {
-      src.addEventListener("load", () => {
-        console.log("had to wait", src.naturalHeight, { src });
-        // go!
-        const filter = filtering || gl.NEAREST;
+      resolve({ texture, ratio });
+    };
 
-        const cb = (err, texture, el) => {
-          const ratio = calcRatio(src);
-
-          resolve({ texture, ratio });
-        };
-
-        // setup promise
-        const loaded = createTexture(
-          gl,
-          {
-            src: src.src,
-            mag: filter,
-            min: filter,
-          },
-          cb
-        );
-      });
-    }
+    // setup promise
+    const loaded = createTexture(
+      gl,
+      {
+        src: src.src,
+        mag: filter,
+        min: filter,
+      },
+      cb
+    );
   });
 }
 
@@ -79,8 +55,8 @@ export function calcRatio(src, wrap = null) {
   const wrapRevRatio = wrapHeight / wrapWidth;
 
   // calc image
-  const imgWidth = src.naturalWidth;
-  const imgHeight = src.naturalHeight;
+  const imgWidth = src.naturalWidth || src.width;
+  const imgHeight = src.naturalHeight || src.height;
   const imgHorizontal = imgWidth > imgHeight; // true = ho, false = vertical
   const imgRatio = imgWidth / imgHeight;
   const imgRevRatio = imgHeight / imgWidth;
