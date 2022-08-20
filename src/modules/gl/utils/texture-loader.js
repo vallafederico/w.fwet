@@ -62,7 +62,7 @@ export function calcRatio(src, wrap = null) {
   const imgRevRatio = imgHeight / imgWidth;
 
   /** Cases */
-  console.log(wrapWidth, wrapHeight, imgWidth, imgHeight, wrapper);
+  console.log(imgWidth, imgHeight);
 
   // 1. vertical wrap w vertical image -> (false, false)
   if (!wrapHorizontal && !imgHorizontal) {

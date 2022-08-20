@@ -49,7 +49,6 @@ export default class {
       this.isReady = true;
       this.texture = loadedData.texture;
       this.ratio = loadedData.ratio;
-      console.log(this.ratio);
 
       this.resize();
     }
