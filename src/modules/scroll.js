@@ -19,7 +19,7 @@ export default class {
     const {
       wrapper = "[data-scroll]",
       factor = 0.5,
-      mouse = true,
+      mouse = false,
       speed = true,
       percentage = true,
       events = false,
@@ -188,8 +188,16 @@ export default class {
 
   touchMove(e) {
     if (!this.touch.isDown) return;
+    e.preventDefault();
     this.y.target +=
       (this.touch.down - e.touches[0].clientY) * this.touch.factor;
+
+    /** Prevent pull torefresh ??? */
+    // if (this.y.target > 0) {
+    //   e.preventDefault();
+    //   console.log("prevented");
+    //   return;
+    // }
   }
 
   /**
