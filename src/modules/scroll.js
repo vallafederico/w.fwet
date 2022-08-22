@@ -1,6 +1,8 @@
 import normalizeWheel from "normalize-wheel";
 import Prefix from "prefix";
 
+// import { isTablet } from "./utils/agents";
+
 /**
  * @param {object} [parameters]
  * @param {string} [wrapper=['data-scroll']] Scrollable element
@@ -22,6 +24,8 @@ export default class {
       percentage = true,
       events = false,
     } = config;
+
+    // this.isTablet = isTablet();
 
     this.wrapper = document.querySelector(wrapper);
     this.factor = factor;

@@ -4,11 +4,17 @@ import Preloader from "./modules/preloader";
 import { Router } from "./modules/router";
 
 import Scroll from "./modules/scroll";
+import MobileScroll from "./modules/mobileScroll";
+
+import { isTablet } from "./modules/utils/agents";
 
 class App {
   constructor() {
     this.body = document.querySelector("body");
     // this.load()
+
+    this.isTablet = isTablet();
+    console.log(this.isTablet);
     this.init();
   }
 
@@ -28,7 +34,12 @@ class App {
     this.router.on("T_START", (data) => this.transition(data));
 
     // dom
-    this.scroll = new Scroll();
+    if (this.isTablet) {
+      this.scroll = new MobileScroll();
+    } else {
+      this.scroll = new Scroll();
+    }
+
     this.dom = new Dom();
 
     // gl

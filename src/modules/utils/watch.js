@@ -1,20 +1,27 @@
 import Emitter from "tiny-emitter";
 
+import { isTablet } from "./agents";
+
 export default class extends Emitter {
   constructor(el) {
     super();
     this.el = el;
 
+    this.isTablet = isTablet();
+    // console.log(this.isTablet);
+
     this.config = {
       in: {
         t: 0.2,
-        my: "00%",
+        my: "0%",
       },
       out: {
         t: 0,
-        my: "00%",
+        my: "0%",
       },
     };
+
+    if (isTablet) this.config.in.t = 0;
 
     this.setup();
     if (this.el) this.init();
