@@ -34,11 +34,13 @@ class App {
     this.router.on("T_START", (data) => this.transition(data));
 
     // dom
-    if (this.isTablet) {
-      this.scroll = new MobileScroll();
-    } else {
-      this.scroll = new Scroll();
-    }
+    // if (this.isTablet) {
+    //   this.scroll = new MobileScroll();
+    // } else {
+    //   this.scroll = new Scroll();
+    // }
+
+    this.scroll = new Scroll();
 
     this.dom = new Dom();
 

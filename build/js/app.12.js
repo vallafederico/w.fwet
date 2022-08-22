@@ -11673,53 +11673,6 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
     return outLow + (outHigh - outLow) * (value - inLow) / (inHigh - inLow);
   }
 
-  // src/modules/mobileScroll.js
-  var mobileScroll_default = class {
-    constructor(gl) {
-      this.gl = gl;
-      this.y = 0;
-      this.isActive = this.canScroll;
-      this.y = {
-        current: 0,
-        target: 0,
-        last: 0,
-        limit: 500
-      };
-      this.speed = 0;
-      this.percentage = 0;
-      document.onscroll = (e) => this.onScroll(e);
-    }
-    onScroll(e) {
-      if (!this.isActive)
-        return;
-      this.y.current = window.scrollY;
-    }
-    resize(gl) {
-      this.gl = gl;
-      this.isActive = this.canScroll;
-      this.y.current = window.scrollY;
-    }
-    get canScroll() {
-      return document.documentElement.scrollHeight > window.innerHeight;
-    }
-    scrollTo(val, instant = false) {
-      if (instant) {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: "instant"
-        });
-        this.y.current = val;
-      } else {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: "smooth"
-        });
-      }
-    }
-  };
-
   // src/app.js
   var App = class {
     constructor() {
@@ -11738,11 +11691,7 @@ Error compiling ${glEnumToString(gl, shaderType)}: ${lastError}`);
       this.router = new Router();
       this.router.on("T_CLICK", () => this.preTransition());
       this.router.on("T_START", (data) => this.transition(data));
-      if (this.isTablet) {
-        this.scroll = new mobileScroll_default();
-      } else {
-        this.scroll = new scroll_default();
-      }
+      this.scroll = new scroll_default();
       this.dom = new dom_default();
       this.gl = new gl_default();
       this.update();
