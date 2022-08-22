@@ -16,6 +16,8 @@ export class Text extends Animation {
   }
 
   animIn() {
+    if (this.animation) this.animation.kill();
+
     this.animation = gsap.to(this.animated, {
       y: "0%",
       duration: anim.in.duration,
