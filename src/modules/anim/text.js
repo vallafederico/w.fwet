@@ -31,6 +31,8 @@ export class Text extends Animation {
   }
 
   animOut() {
+    if (this.animation) this.animation.kill();
+
     return new Promise((resolve) => {
       this.animation = gsap.to(this.animated, {
         y: "200%",
@@ -47,6 +49,8 @@ export class Text extends Animation {
   }
 
   setIn() {
+    if (this.animation) this.animation.kill();
+
     gsap.set(this.animated, {
       y: "0%",
     });

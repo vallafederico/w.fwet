@@ -1,11 +1,3 @@
-// import gsap from 'gsap'
-// import SplitText from '../../libs/SplitText.min.js'
-// import { anim } from '../utils/config.js'
-
-/*
- * Animation
- */
-
 export class Animation {
   constructor(element) {
     this.element = element;
@@ -19,30 +11,37 @@ export class Animation {
   }
 
   createObserver() {
-    this.observer = new IntersectionObserver(
+    this.observerIn = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.animIn();
-          } else {
-            this.setOut();
-          }
-        });
+        if (entries[0].isIntersecting) this.animIn();
       },
       {
-        // root: document.querySelector('#scrollArea'),
-        rootMargin: "00px",
-        threshold: 1.0,
+        root: null,
+        threshold: 0.8,
+        rootMargin: `0px`,
+      }
+    );
+
+    this.observerOut = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) this.setOut();
+      },
+      {
+        root: null,
+        threshold: 0,
+        rootMargin: `0px`,
       }
     );
   }
 
   start() {
-    this.observer.observe(this.element);
+    this.observerIn.observe(this.element);
+    this.observerOut.observe(this.element);
   }
 
   stop() {
-    this.observer.unobserve(this.element);
+    this.observerIn.unobserve(this.element);
+    this.observerOut.unobserve(this.element);
   }
 
   animIn() {}

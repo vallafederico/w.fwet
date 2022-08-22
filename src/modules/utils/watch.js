@@ -7,21 +7,21 @@ export default class extends Emitter {
     super();
     this.el = el;
 
-    this.isTablet = isTablet();
+    // this.isTablet = isTablet();
     // console.log(this.isTablet);
 
     this.config = {
       in: {
-        t: 0.2,
-        my: "0%",
+        t: 0.01,
+        my: "0px",
       },
       out: {
         t: 0,
-        my: "0%",
+        my: "0px",
       },
     };
 
-    if (isTablet) this.config.in.t = 0;
+    if (isTablet()) this.config.in.t = 0.9;
 
     this.setup();
     if (this.el) this.init();
@@ -40,27 +40,23 @@ export default class extends Emitter {
   setup() {
     this.observerIn = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) this.emit("isIn");
-        });
+        if (entries[0].isIntersecting) this.emit("isIn");
       },
       {
         root: null,
         threshold: this.config.in.t,
-        rootMargin: `${this.config.in.my} ${this.config.in.my} ${this.config.in.my} ${this.config.in.my}`,
+        rootMargin: `${this.config.in.my}`,
       }
     );
 
     this.observerOut = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) this.emit("isOut");
-        });
+        if (!entries[0].isIntersecting) this.emit("isOut");
       },
       {
         root: null,
         threshold: this.config.out.t,
-        rootMargin: `${this.config.out.my} ${this.config.out.my} ${this.config.out.my} ${this.config.out.my}`,
+        rootMargin: `${this.config.out.my}`,
       }
     );
   }
