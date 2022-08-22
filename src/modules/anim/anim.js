@@ -31,7 +31,7 @@ export class Animation {
       },
       {
         // root: document.querySelector('#scrollArea'),
-        rootMargin: "200px",
+        rootMargin: "00px",
         threshold: 1.0,
       }
     );
