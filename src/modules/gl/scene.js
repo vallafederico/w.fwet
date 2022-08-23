@@ -2,6 +2,7 @@ import HomePage from "./pages/home";
 import ProjectPage from "./pages/project";
 import WorkPage from "./pages/work";
 import Page from "./pages/page";
+import StudyPage from "./pages/study";
 
 export default class {
   constructor(gl) {
@@ -50,6 +51,8 @@ function pagePicker(page) {
       return ProjectPage;
     case "work":
       return WorkPage;
+    case "study":
+      return StudyPage;
     default:
       return Page;
   }
