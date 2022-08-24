@@ -81,6 +81,7 @@ class App {
 
   handleNext(next) {
     if (this.scroll) this.scroll.scrollTo(0, true);
+    // console.log(this.scroll);
     if (this.dom) this.dom.create();
     if (this.gl) this.gl.handlePageChange(next);
   }

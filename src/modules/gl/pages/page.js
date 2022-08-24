@@ -2,6 +2,8 @@ export default class Page {
   constructor(gl) {
     this.gl = gl;
     this.children = [];
+
+    this.gl.vp.scroll = 0;
   }
 
   create() {

@@ -10,6 +10,21 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 [Webflow DEV link](https://webflow.com/design/fwet)
 
+#### Snippets
+
+###### -- CMS: Study Images and Videos
+
+```
+<figure data-gl="studyt" data-utils="hid">
+	<img crossorigin loading="eager" src="" alt="" />
+</figure>
+
+<figure data-gl="studyt" data-utils="hid">
+  <video crossorigin playsinline autoplay loop muted src="" width="100%"/>
+</figure>
+
+```
+
 #### Todo
 
 ###### Domm
@@ -25,7 +40,7 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 ###### Issues
 
-- [ ] on scroll, resize, transition : position after transition is wrong
+- [x] on scroll, resize, transition : position after transition is wrong
 
 ###### Launch
 

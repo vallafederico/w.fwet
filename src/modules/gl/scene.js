@@ -9,7 +9,7 @@ export default class {
     this.gl = gl;
 
     this.create();
-    setTimeout((_) => this.resize(this.gl), 100);
+    // setTimeout((_) => this.resize(this.gl), 100);
   }
 
   create() {
@@ -36,9 +36,6 @@ export default class {
 
     const page = pagePicker(next);
     this.current = new page(this.gl);
-    this.resize(this.gl);
-
-    setTimeout((_) => this.resize(this.gl), 100);
   }
 }
 

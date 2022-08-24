@@ -8,7 +8,7 @@ export default class {
     this.canvas = document.getElementById("c");
     this.gl = this.canvas.getContext("webgl");
     this.gl.clearColor(0.04, 0.04, 0.04, 1);
-    this.gl.vp = { dpr: Math.min(window.devicePixelRatio, 2) };
+    this.gl.vp = { dpr: Math.min(window.devicePixelRatio, 2), scroll: 0 };
     //this.gl.enable(this.gl.CULL_FACE);
     //this.gl.cullFace(this.gl.BACK);
     //this.gl.enable(this.gl.DEPTH_TEST)
@@ -38,7 +38,7 @@ export default class {
 
   render(y, speed) {
     this.time += 0.01;
-
+    this.testY = y;
     this.scroll = y * this.gl.vp.px;
 
     this.gl.clear(this.gl.COLOR_BUFFER_BIT || this.gl.DEPTH_BUFFER_BIT);

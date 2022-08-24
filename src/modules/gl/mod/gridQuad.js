@@ -44,6 +44,7 @@ export default class extends Quad {
 
     if (this.texture) this.texture.resize(this.gl);
 
+    // console.log(this.ref, this.gl.vp);
     const pos = calcDomPosition(this.ref, this.gl.vp);
     m4.translation([pos.x, pos.y, 0], this.mat);
 
@@ -87,6 +88,8 @@ export default class extends Quad {
 
     this.ref.onmouseenter = () => this.animateHover(true);
     this.ref.onmouseleave = () => this.animateHover(false);
+
+    this.resize(this.gl);
   }
 
   animateIn(dur = 1.2) {

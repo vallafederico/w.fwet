@@ -8,6 +8,7 @@ export default class extends Page {
     console.log("PAGE -> study");
 
     this.create();
+    setTimeout(() => this.resize(this.gl), 200);
   }
 
   create() {
