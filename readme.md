@@ -14,15 +14,16 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 ###### -- CMS: Study Images and Videos
 
-```
+```html
+<!-- Image -->
 <figure data-gl="studyt" data-utils="hid">
-	<img crossorigin loading="eager" src="" alt="" />
+  <img crossorigin loading="eager" src="" alt="" />
 </figure>
 
+<!-- Video -->
 <figure data-gl="studyt" data-utils="hid">
-  <video crossorigin playsinline autoplay loop muted src="" width="100%"/>
+  <video crossorigin playsinline autoplay loop muted src="" width="100%" />
 </figure>
-
 ```
 
 #### Todo
