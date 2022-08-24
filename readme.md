@@ -1,6 +1,6 @@
 # FW_ET
 
-Webflow repo for Forward Etude website.
+Webflow repo for FWET website.
 
 Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
