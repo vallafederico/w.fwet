@@ -28,20 +28,12 @@ Native Webgl + GSAP + custom all the rest (router, smoothscroll).
 
 #### Todo
 
-###### Domm
-
-- [x] Softer Animations on page transition
-- [x] Contacts setup
-- [x] Contacts: fix mobile icons
-
-###### Webgl
-
-- [x] Post Processing
-- [x] /home grid: hover animation
+Temporary, will kill
 
 ###### Issues
 
 - [x] on scroll, resize, transition : position after transition is wrong
+- [x] first load -> start invisible, load, make visible
 
 ###### Launch
 
